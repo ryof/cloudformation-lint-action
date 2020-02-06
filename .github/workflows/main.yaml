@@ -1,0 +1,28 @@
+name: Publish image
+
+on:
+  release:
+    types:
+      - created
+
+env:
+  DOCKER_BUILDKIT: 1
+  DOCKERHUB_USERNAME: ryof
+  IMAGE_NAME: cloudformation-lint-action
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login Github Registry
+        run: echo ${{ secrets.DOCKERHUB_ACCESS_TOKEN }} | docker login -u ${DOCKERHUB_USERNAME} --password-stdin
+      - name: Build image
+        run: |
+          tag=$(echo ${GITHUB_REF} | sed 's|refs/tags/\(.*\)|\1|')
+          echo "::set-env name=tag::${tag}"
+          docker build -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${tag} .
+      - name: Push image
+        run: docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${tag}
