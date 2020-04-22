@@ -3,7 +3,7 @@ author: ryof <ryo.furuyama@gmail.com>
 description: CloudFormation lint action using cfn-lint
 runs:
   using: docker
-  image: docker://ryof/cloudformation-lint-action:1.0.0
+  image: docker://ryof/cloudformation-lint-action:1.0.1
 branding:
   icon: check-circle
   color: green
