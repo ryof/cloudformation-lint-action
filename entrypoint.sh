@@ -1,5 +1,6 @@
 #!/bin/sh -e
 
+cfn-lint --update-specs
 cp /matcher.json .
 echo "::add-matcher::matcher.json"
 set +e
